@@ -1,83 +1,92 @@
-import math
+from tkinter import *
+import os
+ 
+ 
+def dir():
+    qwe2 = ['']
+    qwe = os.listdir(os.getcwd())
+    sith = len(qwe)
+    i=0
+    while(i<sith):
+        qwe2.append(qwe[i])
+        i+=1
+    return(qwe2)
 
-while True:
-    menu = int(input(  "Ведіть номер задачі від 1 до 10 або введіть: 999 для заверщення роботи "))
-    if menu == 1:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
+def back():
+    os.chdir("..")
+    listb()
 
-        s = float(x) + float(y)
-        r = float(x) - float(y)
-        d = float(x) * float(y)
+def open_f():
+    selection = languages_listbox.curselection()
+    a = languages_listbox.get(selection[0])
+    for j in range(len(a)):
+        if a[j] == ".":
+            os.startfile(os.getcwd()  + "\\" + a)
+            listb()
+            return()
+    os.chdir(os.getcwd()  + "\\" + a)
+    listb()
+def go():
+    folder = language_entry.get()
+    os.chdir(folder )
+    listb()
 
-        prfloat ("Сума " + str(s) + "\n")
-        prfloat ("Рiзниця " + str(r) + "\n")
-        prfloat ("Добуток " + str(d) + "\n")
+def create_f():
+    new_f = language_entry.get()
+    open(new_f, "w")
+    listb()
+def create_p():
+    new_p = language_entry.get()
+    os.mkdir(new_p)
+    listb()
+def del_f():
+    selection = languages_listbox.curselection()
+    new_d = languages_listbox.get(selection[0])
+    for j in range(len(new_d)):
+        if new_d[j] == ".":
+            os.remove(new_d)
+            listb()
+            return()
 
-    if menu == 2:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (math.fabs(float(x)) - math.fabs(float(y))) / (1 + math.fabs(float(x) * float(y)))
-        prfloat ("Результат "  + str(s) + "\n")
+    os.rmdir(new_d)
+    listb()
+def renam():
+    selection = languages_listbox.curselection()
+    new_bif = languages_listbox.get(selection[0])
+    new_aft = language_entry.get()
 
-    if menu == 3:
-        x = input(  "Довжина ребра куба =  ")
-        o = float(x) * float(x) * float(x) 
-        s = float(x) * float(x)
-        print ("Обєм куба " + str(o) + "\n")
-        print ("Площа бокової поверхностi " + str(s) + "\n")
+    os.rename(new_bif, new_aft)
+    listb()
+def repl():
+    selection = languages_listbox.curselection()
+    new_bif = languages_listbox.get(selection[0])
+    new_aft = language_entry.get()
 
-    if menu == 4:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (float(x) + float(y)) / 2
-        p = math.sqrt(float(x) * float(y) )
-        print ("Сер. ариф. " + str(s) + "\n")
-        print ("Сер. геом. "  + str(p) + "\n")
+    os.replace(new_bif, new_aft)
+    listb()
+ 
+root = Tk()
+root.title("Comander")
+root['bg'] = '#555'
+ 
+language_entry = Entry(width=35)
+language_entry.grid(column=0, row=0, padx=6, pady=6)
+create_f_button = Button(text="Створ.Файл",background="#555", foreground="#ccc", command=create_f).grid(column=2, row=0, padx=6, pady=6)
+create_p_button = Button(text="Створ.Папку",background="#555", foreground="#ccc", command=create_p).grid(column=1, row=0, padx=6, pady=6)
+ 
+languages_listbox = Listbox(height=20, width=50)
+languages_listbox.grid(row=1, column=0, columnspan=2,rowspan=20, sticky=W+E, padx=5, pady=5)
+ 
+def listb():
+    languages_listbox.delete(0,'end')
+    for language in dir():
+        languages_listbox.insert(END, language) 
 
-    if menu == 5:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (float(x) + float(y)) / 2
-        p = math.sqrt(math.fabs(float(x)) * math.fabs(float(y)) )
-        print ("Сер. ариф. " + str(s) + "\n")
-        print ("Сер. геом. "  + str(p) + "\n")
-
-    if menu == 6:
-        x = input(  "Катет а = ")
-        y = input(  "Катет б = ")
-        s = math.sqrt((float(x) * float(x)) + (float(y) * float(y)))
-        p = float(x) + float(y)
-        print ("Гiпотенуза "  + str(s) + "\n")
-        print ("Площа "  + str(p) + "\n")
-
-    if menu == 7:
-        o1 = input(  "Обєм 1 = ")
-        o2 = input(  "Обєм 2 = ")
-        t1 = input(  "Температура 1 = ")
-        t2 = input(  "Температура 2 = ")
-        oz = float(o1) * float(o2) 
-        tz = (float(o1) * float(t1) + float(o2) * float(t2)) / oz
-        print ("Загальний обєм = "  + str(oz) + "\n")
-        print ("Загальна температура = "  + str(tz) + "\n")
-
-
-    if menu == 8:
-        r = input(  "Радiус =  ")
-        n = input(  "Кiлькiсть сторiн = ")
-        p = 2 * float(r) * float(n) * math.sin(math.pi / float(n))* math.cos(math.pi / float(n))
-        print ("Периметр = "  + str(p) + "\n")
-
-    if menu == 9:
-        r1 = input(  "Опiр 1 =  ")
-        r2 = input(  "Опiр 2 =  ")
-        r3 = input(  "Опiр 3 =  ")
-        t = 1/float(r1) + 1/float(r2) + 1/float(r3)
-        print ("Заг. опiр = "  + str(t) + "\n")
-
-    if menu == 10:
-        h = input(  "Висота = ")
-        t = math.sqrt((2 * float(h)) / 9.81)
-        print ("Час = "   + str(t) + "\n")
-    if menu == 999:
-        break
+back_button = Button(text="Назад",background="#555", foreground="#ccc", command=back, width=8).grid(row=3, column=2, padx=5, pady=5)
+open_button = Button(text="Открить",background="#555", foreground="#ccc", command=open_f, width=8).grid(row=4, column=2, padx=5, pady=5)
+go_button = Button(text="Перейти",background="#555", foreground="#ccc", command=go, width=8).grid(row=2, column=2, padx=5, pady=5)
+del_button = Button(text="Удалить",background="#555", foreground="#ccc", command=del_f, width=8).grid(row=5, column=2, padx=5, pady=5)
+renam_button = Button(text="Переімен.",background="#555", foreground="#ccc", command=renam, width=8).grid(row=6, column=2, padx=5, pady=5)
+repl_button = Button(text="Переміст.",background="#555", foreground="#ccc", command=repl, width=8).grid(row=7, column=2, padx=5, pady=5)
+listb()
+root.mainloop()
