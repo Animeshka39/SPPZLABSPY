@@ -1,83 +1,53 @@
-import math
-
-while True:
-    menu = int(input(  "Ведіть номер задачі від 1 до 10 або введіть: 999 для заверщення роботи "))
-    if menu == 1:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-
-        s = float(x) + float(y)
-        r = float(x) - float(y)
-        d = float(x) * float(y)
-
-        prfloat ("Сума " + str(s) + "\n")
-        prfloat ("Рiзниця " + str(r) + "\n")
-        prfloat ("Добуток " + str(d) + "\n")
-
-    if menu == 2:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (math.fabs(float(x)) - math.fabs(float(y))) / (1 + math.fabs(float(x) * float(y)))
-        prfloat ("Результат "  + str(s) + "\n")
-
-    if menu == 3:
-        x = input(  "Довжина ребра куба =  ")
-        o = float(x) * float(x) * float(x) 
-        s = float(x) * float(x)
-        print ("Обєм куба " + str(o) + "\n")
-        print ("Площа бокової поверхностi " + str(s) + "\n")
-
-    if menu == 4:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (float(x) + float(y)) / 2
-        p = math.sqrt(float(x) * float(y) )
-        print ("Сер. ариф. " + str(s) + "\n")
-        print ("Сер. геом. "  + str(p) + "\n")
-
-    if menu == 5:
-        x = input(  "x =  ")
-        y = input(  "y =  ")
-        s = (float(x) + float(y)) / 2
-        p = math.sqrt(math.fabs(float(x)) * math.fabs(float(y)) )
-        print ("Сер. ариф. " + str(s) + "\n")
-        print ("Сер. геом. "  + str(p) + "\n")
-
-    if menu == 6:
-        x = input(  "Катет а = ")
-        y = input(  "Катет б = ")
-        s = math.sqrt((float(x) * float(x)) + (float(y) * float(y)))
-        p = float(x) + float(y)
-        print ("Гiпотенуза "  + str(s) + "\n")
-        print ("Площа "  + str(p) + "\n")
-
-    if menu == 7:
-        o1 = input(  "Обєм 1 = ")
-        o2 = input(  "Обєм 2 = ")
-        t1 = input(  "Температура 1 = ")
-        t2 = input(  "Температура 2 = ")
-        oz = float(o1) * float(o2) 
-        tz = (float(o1) * float(t1) + float(o2) * float(t2)) / oz
-        print ("Загальний обєм = "  + str(oz) + "\n")
-        print ("Загальна температура = "  + str(tz) + "\n")
+from random import randint
+import random
+import string
+import datetime
+import openpyxl
 
 
-    if menu == 8:
-        r = input(  "Радiус =  ")
-        n = input(  "Кiлькiсть сторiн = ")
-        p = 2 * float(r) * float(n) * math.sin(math.pi / float(n))* math.cos(math.pi / float(n))
-        print ("Периметр = "  + str(p) + "\n")
+# function that returns a number of the specific type you want to have, and with random values
+def generateElement(type):
+  if type == 1:
+    return randint(0, 100)
 
-    if menu == 9:
-        r1 = input(  "Опiр 1 =  ")
-        r2 = input(  "Опiр 2 =  ")
-        r3 = input(  "Опiр 3 =  ")
-        t = 1/float(r1) + 1/float(r2) + 1/float(r3)
-        print ("Заг. опiр = "  + str(t) + "\n")
+  if type == 2:
+    return random.random()
 
-    if menu == 10:
-        h = input(  "Висота = ")
-        t = math.sqrt((2 * float(h)) / 9.81)
-        print ("Час = "   + str(t) + "\n")
-    if menu == 999:
-        break
+  if type == 3:
+    return random.choice(string.ascii_letters)
+
+  if type == 4:
+    generatedType = randint(1, 3)
+    return generateElement(generatedType)
+
+
+print("Введите колличество елементов в массиве")
+numberOfElements = int(input())
+print("Какой тип елементов хотите добавить?")
+print("Целые числа: 1, Дробные числа: 2, Символы: 3, Смешаный тип: 4")
+typeOfElements = int(input())
+i = 0
+elements = []
+
+
+start = datetime.datetime.now()
+while i < numberOfElements:
+  elements.append(generateElement(typeOfElements))
+  i += 1
+  if i == numberOfElements:
+    break
+finish = datetime.datetime.now()
+duration = finish - start
+print("Время выполнения: ", duration)
+# openpyxl is here
+path = "sample.xlsx"
+wb = openpyxl.load_workbook(path)
+sheet = wb.active
+
+sheet['A' + str(sheet.max_row + 1)] = sheet.max_row
+sheet['B' + str(sheet.max_row)] = "Python"
+sheet['C' + str(sheet.max_row)] = str(numberOfElements)
+sheet['D' + str(sheet.max_row)] = typeOfElements
+sheet['E' + str(sheet.max_row)] = str(duration)
+
+wb.save('sample.xlsx')
