@@ -36,6 +36,7 @@ while i < numberOfElements:
   i += 1
   if i == numberOfElements:
     break
+print("Array =",elements)
 finish = datetime.datetime.now()
 duration = finish - start
 print("Время выполнения: ", duration)
