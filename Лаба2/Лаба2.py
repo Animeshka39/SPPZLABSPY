@@ -40,7 +40,7 @@ finish = datetime.datetime.now()
 duration = finish - start
 print("Время выполнения: ", duration)
 # openpyxl is here
-path = "sample.xlsx"
+path = "D:\\sample.xlsx"
 wb = openpyxl.load_workbook(path)
 sheet = wb.active
 
@@ -50,4 +50,4 @@ sheet['C' + str(sheet.max_row)] = str(numberOfElements)
 sheet['D' + str(sheet.max_row)] = typeOfElements
 sheet['E' + str(sheet.max_row)] = str(duration)
 
-wb.save('sample.xlsx')
+wb.save("D:\\sample.xlsx")
